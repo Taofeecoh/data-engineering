@@ -17,18 +17,12 @@ download_uris = [
 
 def main():
     # make new duirectory
-    
-    #path = r"C:\Users\adesa\OneDrive\Desktop\Data\Data-Aanalytics-Engineering\Data-Eng-Practice\Exercises\Exercise-1\downloads"
     path = "./downloads"
     try:
         os.mkdir(path)
         print("directory created!")
     except FileExistsError:
-        try:
-            os.rmdir(path)
-            os.mkdir(path)
-        except PermissionError:
-            print("directory exists!")
+        print("directory exists!")
 
 
      # Iterate through links
