@@ -1,0 +1,12 @@
+# version: "3.9"  # warns that attribute "version" is obsolete, and to be removed to avoid confusion
+services:
+  test:
+    image: "exercise-1"
+    volumes:
+      - .:/app
+    command: python3 -m pytest
+  run:
+    image: "exercise-1"
+    volumes:
+      - .:/app
+    command: python3 main.py
