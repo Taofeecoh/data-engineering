@@ -16,7 +16,6 @@ download_uris = [
 
 
 def main():
-    # your code here
     # make new duirectory
     
     #path = r"C:\Users\adesa\OneDrive\Desktop\Data\Data-Aanalytics-Engineering\Data-Eng-Practice\Exercises\Exercise-1\downloads"
