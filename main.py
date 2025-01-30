@@ -22,23 +22,31 @@ def main():
         os.mkdir(path)
         print("directory created!")
     except FileExistsError:
-        print("directory exists!")
+        """for dir in os.listdir(path):
+            os.remove(os.path.join(path, dir)) # Remove all files in the directory
+        os.rmdir(path) # Remove the empty directory"""
+        # Excluding the above code block now because PermissionError is now solved for the code line below.
+
+        shutil.rmtree(path)
+        os.mkdir(path)
+        print("directory recreated!")
 
 
      # Iterate through links
+    bad_request = []  # Handle error in request
     for link in download_uris:
         file_name = link.split("/")[-1]  # Retrive filename from url
 
         # Send requests to website
         r = requests.get(link) 
         if r.status_code != 200:  # Set condition to investigate bad request
-            return(link)
-
-        # Save files in newly created folder
-        with open(os.path.join(path, file_name), "wb") as wf:   # Create file name
-            wf.write(r.content)   # Write binary : write zip file from contents into created file above
-            with ZipFile(os.path.join(path, file_name)) as rf:  # Open zipfile and read content to be extracted
-                rf.extractall(path)
+            bad_request.append(link)
+        elif r.status_code == 200:
+            # Save files in newly created folder
+            with open(os.path.join(path, file_name), "wb") as wf:   # Create file name
+                wf.write(r.content)   # Write binary : write zip file from contents into created file above
+                with ZipFile(os.path.join(path, file_name)) as rf:  # Open zipfile and read content to be extracted
+                    rf.extractall(path)
         
         # Clean directory; remove files and directory that are not csv
         for file in os.listdir(path): # List files/dir in the download directory
@@ -47,8 +55,10 @@ def main():
                 os.remove(file)
             elif os.path.isdir(file):  #Check if it is a directory and remove
                 shutil.rmtree(file)
+    
+    return bad_request
 
 if __name__ == "__main__":
     main()
 
-print("end of request")
+# print("end of request")
